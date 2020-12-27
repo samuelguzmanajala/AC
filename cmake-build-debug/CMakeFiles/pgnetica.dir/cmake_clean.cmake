@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/pgnetica.dir/VersionParalela/fun_p.c.o"
+  "CMakeFiles/pgnetica.dir/VersionParalela/gengrupos_p.c.o"
   "CMakeFiles/pgnetica.dir/fun_s.c.o"
   "CMakeFiles/pgnetica.dir/gengrupos_s.c.o"
   "pgnetica"

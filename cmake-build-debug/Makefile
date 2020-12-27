@@ -143,6 +143,60 @@ pgnetica/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/build
 .PHONY : pgnetica/fast
 
+VersionParalela/fun_p.o: VersionParalela/fun_p.c.o
+
+.PHONY : VersionParalela/fun_p.o
+
+# target to build an object file
+VersionParalela/fun_p.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/fun_p.c.o
+.PHONY : VersionParalela/fun_p.c.o
+
+VersionParalela/fun_p.i: VersionParalela/fun_p.c.i
+
+.PHONY : VersionParalela/fun_p.i
+
+# target to preprocess a source file
+VersionParalela/fun_p.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/fun_p.c.i
+.PHONY : VersionParalela/fun_p.c.i
+
+VersionParalela/fun_p.s: VersionParalela/fun_p.c.s
+
+.PHONY : VersionParalela/fun_p.s
+
+# target to generate assembly for a file
+VersionParalela/fun_p.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/fun_p.c.s
+.PHONY : VersionParalela/fun_p.c.s
+
+VersionParalela/gengrupos_p.o: VersionParalela/gengrupos_p.c.o
+
+.PHONY : VersionParalela/gengrupos_p.o
+
+# target to build an object file
+VersionParalela/gengrupos_p.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/gengrupos_p.c.o
+.PHONY : VersionParalela/gengrupos_p.c.o
+
+VersionParalela/gengrupos_p.i: VersionParalela/gengrupos_p.c.i
+
+.PHONY : VersionParalela/gengrupos_p.i
+
+# target to preprocess a source file
+VersionParalela/gengrupos_p.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/gengrupos_p.c.i
+.PHONY : VersionParalela/gengrupos_p.c.i
+
+VersionParalela/gengrupos_p.s: VersionParalela/gengrupos_p.c.s
+
+.PHONY : VersionParalela/gengrupos_p.s
+
+# target to generate assembly for a file
+VersionParalela/gengrupos_p.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/VersionParalela/gengrupos_p.c.s
+.PHONY : VersionParalela/gengrupos_p.c.s
+
 fun_s.o: fun_s.c.o
 
 .PHONY : fun_s.o
@@ -206,6 +260,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... pgnetica"
+	@echo "... VersionParalela/fun_p.o"
+	@echo "... VersionParalela/fun_p.i"
+	@echo "... VersionParalela/fun_p.s"
+	@echo "... VersionParalela/gengrupos_p.o"
+	@echo "... VersionParalela/gengrupos_p.i"
+	@echo "... VersionParalela/gengrupos_p.s"
 	@echo "... fun_s.o"
 	@echo "... fun_s.i"
 	@echo "... fun_s.s"

@@ -4,6 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/home/samuel/arq33/pgnetica/VersionParalela/fun_p.c" "/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles/pgnetica.dir/VersionParalela/fun_p.c.o"
+  "/home/samuel/arq33/pgnetica/VersionParalela/gengrupos_p.c" "/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles/pgnetica.dir/VersionParalela/gengrupos_p.c.o"
   "/home/samuel/arq33/pgnetica/fun_s.c" "/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles/pgnetica.dir/fun_s.c.o"
   "/home/samuel/arq33/pgnetica/gengrupos_s.c" "/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles/pgnetica.dir/gengrupos_s.c.o"
   )

@@ -111,44 +111,30 @@ void analizar_enfermedades (struct lista_grupos *listag, float enf[][TENF], stru
 // Realizar el analisis de enfermedades en los grupos:
 //        maximo y grupo en el que se da el maximo (para cada enfermedad)
 //        minimo y grupo en el que se da el minimo (para cada enfermedad)
-
-
     float sumaEnfermedades;
-#pragma omp parallel //reduction(+:sumaEnfermedades)
-    {
-        int h;
-        //float sumaEnfermedades;
-#pragma omp for private(h)
-        for (h = 0; h < TENF; h++) {
-            prob_enf[h].min = FLT_MAX;
-            prob_enf[h].max = FLT_MIN;
-        }
-        int i;
-        float media;
-//#pragma omp for private (i,j,k,media)
-
-        for (i = 0; i < NGRUPOS; i++) {
-            media= 0;
-            for (int j = 0; j < TENF; j++) {
-                int k;
-                sumaEnfermedades = 0;
-#pragma omp for private (k)
-                for (k = 0; k < listag[i].nelemg; k++) {:
-#pragma omp atomic
-                    sumaEnfermedades = sumaEnfermedades + enf[listag[i].elemg[k]][j];
-                }
-
-                media = sumaEnfermedades / listag[i].nelemg;
-#pragma omp barrier
-                if (media > prob_enf[j].max) {
-                    prob_enf[j].max = media;
-                    prob_enf[j].gmax = i;
-                }
-                if (media < prob_enf[j].min) {
-                    prob_enf[j].min = media;
-                    prob_enf[j].gmin = i;
-                }
-
+#pragma omp parallel reduction(+: sumaEnfermedades)
+#pragma omp for schedule(static)
+    for (int i = 0; i < TENF; i++) {
+        prob_enf[i].min = FLT_MAX;
+        prob_enf[i].max = FLT_MIN;
+    }
+    for (int i = 0; i < NGRUPOS; i++) {
+        float media=0;
+        for (int j = 0; j < TENF; j++) {
+            sumaEnfermedades=0;
+#pragma omp for schedule(dynamic)
+            for (int k = 0; k < listag[i].nelemg; k++) {
+                sumaEnfermedades=sumaEnfermedades+enf[listag[i].elemg[k]][j];
+            }
+//#pragma omp barrier
+            media= sumaEnfermedades/listag[i].nelemg;
+            if(media> prob_enf[j].max){
+                prob_enf[j].max = media;
+                prob_enf[j].gmax = i;
+            }
+            if(media<prob_enf[j].min){
+                prob_enf[j].min=media;
+                prob_enf[j].gmin = i;
             }
         }
     }

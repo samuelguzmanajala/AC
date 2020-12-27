@@ -78,6 +78,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/samuel/arq33/pgnetica/VersionParalela/fun_p.c">
+			<Option target="pgnetica"/>
+		</Unit>
+		<Unit filename="/home/samuel/arq33/pgnetica/VersionParalela/gengrupos_p.c">
+			<Option target="pgnetica"/>
+		</Unit>
 		<Unit filename="/home/samuel/arq33/pgnetica/defineg.h">
 			<Option target="pgnetica"/>
 		</Unit>

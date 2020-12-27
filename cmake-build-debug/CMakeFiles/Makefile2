@@ -94,12 +94,12 @@ clean: CMakeFiles/pgnetica.dir/clean
 CMakeFiles/pgnetica.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pgnetica.dir/build.make CMakeFiles/pgnetica.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target pgnetica"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target pgnetica"
 .PHONY : CMakeFiles/pgnetica.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pgnetica.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pgnetica.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/samuel/arq33/pgnetica/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/pgnetica.dir/rule

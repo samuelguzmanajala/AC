@@ -6,17 +6,35 @@
 
 #IncludeRegexTransform: 
 
-/home/samuel/arq33/pgnetica/defineg.h
+../defineg.h
 
-/home/samuel/arq33/pgnetica/fun_s.c
+../fun.h
+
+/home/samuel/arq33/pgnetica/VersionParalela/fun_p.c
 math.h
 -
 float.h
+-
+omp.h
 -
 stdio.h
 -
 limits.h
 -
 defineg.h
-/home/samuel/arq33/pgnetica/defineg.h
+/home/samuel/arq33/pgnetica/VersionParalela/defineg.h
+
+/home/samuel/arq33/pgnetica/VersionParalela/gengrupos_p.c
+stdio.h
+-
+stdlib.h
+-
+time.h
+-
+defineg.h
+/home/samuel/arq33/pgnetica/VersionParalela/defineg.h
+fun.h
+/home/samuel/arq33/pgnetica/VersionParalela/fun.h
+omp.h
+/home/samuel/arq33/pgnetica/VersionParalela/omp.h
 
