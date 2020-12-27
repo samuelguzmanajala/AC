@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/pgnetica.dir/fun_s.c.o CMakeFiles/pgnetica.dir/gengrupos_s.c.o  -o pgnetica  -lm 
