@@ -62,8 +62,9 @@ void main (int argc, char *argv[])
   fscanf (fd, "%d", &nelem);
   if (argc == 4) nelem = atoi(argv[3]);	// 4. parametro: numero de elementos
 
-//#pragma omp parallel for private(i,j)
-    for (i=0; i<nelem; i++)
+
+#pragma omp parallel for private(i,j)
+    for (i=0; i<nelem; i++) //En vez de i++, poner i+=numThreads ????
         for (j=0; j<NCAR; j++)
             fscanf (fd, "%f", &(elem[i][j]));
 
