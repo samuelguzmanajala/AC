@@ -112,30 +112,37 @@ void main (int argc, char *argv[])
     // calcular los nuevos centroides de los grupos
     // media de cada caracteristica
     // acumular los valores de cada caracteristica (100); numero de elementos al final
+    #pragma omp parallel for private(i,j)
     for (i=0; i<NGRUPOS; i++)
      for (j=0; j<NCAR+1; j++) 
+     #pragma omp atomic
       additions[i][j] = 0.0;
-
+#pragma omp parallel for reduction(+:additions)
     for (i=0; i<nelem; i++)
     {
+      
       for (j=0; j<NCAR; j++) additions[popul[i]][j] += elem[i][j];
+      #pragma omp atomic
       additions[popul[i]][NCAR]++;
     }
 
     // calcular los nuevos centroides y decidir si el proceso ha finalizado o no (en funcion de DELTA)
     fin = 1;
+    #pragma omp parallel for private(i,j)
     for (i=0; i<NGRUPOS; i++) 
     {
       if (additions[i][NCAR] > 0) // ese grupo (cluster) no esta vacio
       {
         for (j=0; j<NCAR; j++) newcent[i][j] = additions[i][j] / additions[i][NCAR];
-
+#pragma omp barrier
         // decidir si el proceso ha finalizado
         discent = gendist (&newcent[i][0], &cent[i][0]);
         if (discent > DELTA) fin = 0;  // en alguna centroide hay cambios; continuar 
 
         // copiar los nuevos centroides
-        for (j=0; j<NCAR; j++) cent[i][j] = newcent[i][j];
+        for (j=0; j<NCAR; j++) 
+        #pragma omp atomic
+          cent[i][j] = newcent[i][j];
       }
     }
 
@@ -150,11 +157,11 @@ void main (int argc, char *argv[])
 
   // 2. fase: numero de elementos de cada grupo; densidad; analisis enfermedades
   // ===========================================================================
-
+#pragma omp parallel for private(i)
   for (i=0; i<NGRUPOS; i++) listag[i].nelemg = 0;
 
   // numero de elementos y su clasificacion
-  for (i=0; i<nelem; i++) 
+  for (i=0; i<nelem; i++) //como printear esto en orden ????? 
   {
     grupo = popul[i];
     num=listag[grupo].nelemg;    
