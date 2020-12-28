@@ -72,19 +72,23 @@ void grupo_cercano (int nelem, float elem[][NCAR], float cent[][NCAR], int *popu
 void calcular_densidad (float elem[][NCAR], struct lista_grupos *listag, float *densidad)
 {
     float suma_dist;
+    int cont;
 #pragma omp parallel reduction(+ : suma_dist)
     {
         suma_dist = 0;
         for (int k = 0; k < NGRUPOS; k++) {
+            cont = 0;
             if (listag[k].nelemg == 0 || listag[k].nelemg == 1) {
                 densidad[k] = 0;
             } else {
                 int i;
                 int j;
 #pragma omp for private(i, j) schedule (dynamic)
+                
                 for (i = 0; i < listag[k].nelemg - 1; i++) {
                     for (j = i + 1; j < listag[k].nelemg; j++) {
                         suma_dist += gendist(elem[listag[k].elemg[i]], elem[listag[k].elemg[j]]);
+                        cont++;
                     }
                 }
                 densidad[k] = (suma_dist / listag[k].nelemg);
@@ -133,7 +137,7 @@ void analizar_enfermedades (struct lista_grupos *listag, float enf[][TENF], stru
                 int k;
                 sumaEnfermedades = 0;
 #pragma omp for private (k)
-                for (k = 0; k < listag[i].nelemg; k++) {:
+                for (k = 0; k < listag[i].nelemg; k++) {
 #pragma omp atomic
                     sumaEnfermedades = sumaEnfermedades + enf[listag[i].elemg[k]][j];
                 }

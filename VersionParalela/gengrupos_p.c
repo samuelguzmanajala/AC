@@ -63,7 +63,7 @@ void main (int argc, char *argv[])
   if (argc == 4) nelem = atoi(argv[3]);	// 4. parametro: numero de elementos
 
 
-#pragma omp parallel for private(i,j)
+//#pragma omp parallel for private(i,j) //
     for (i=0; i<nelem; i++) //En vez de i++, poner i+=numThreads ????
         for (j=0; j<NCAR; j++)
             fscanf (fd, "%f", &(elem[i][j]));
@@ -113,10 +113,12 @@ void main (int argc, char *argv[])
     // media de cada caracteristica
     // acumular los valores de cada caracteristica (100); numero de elementos al final
     #pragma omp parallel for private(i,j)
-    for (i=0; i<NGRUPOS; i++)
-     for (j=0; j<NCAR+1; j++) 
+    for (i=0; i<NGRUPOS; i++){
+     for (j=0; j<NCAR+1; j++){
      #pragma omp atomic
       additions[i][j] = 0.0;
+     } 
+    }
 #pragma omp parallel for reduction(+:additions)
     for (i=0; i<nelem; i++)
     {
@@ -140,9 +142,10 @@ void main (int argc, char *argv[])
         if (discent > DELTA) fin = 0;  // en alguna centroide hay cambios; continuar 
 
         // copiar los nuevos centroides
-        for (j=0; j<NCAR; j++) 
-        #pragma omp atomic
+        for (j=0; j<NCAR; j++){
+          #pragma omp atomic
           cent[i][j] = newcent[i][j];
+        } 
       }
     }
 

@@ -68,6 +68,7 @@ void calcular_densidad (float elem[][NCAR], struct lista_grupos *listag, float *
 {
     float suma_dist = 0;
     for(int k=0; k<NGRUPOS;k++){
+        suma_dist=0.0;
         if(listag[k].nelemg==0||listag[k].nelemg==1) {
             densidad[k]=0;
         }else{
@@ -76,7 +77,7 @@ void calcular_densidad (float elem[][NCAR], struct lista_grupos *listag, float *
                     suma_dist+=gendist(elem[listag[k].elemg[i]],elem[listag[k].elemg[j]]);
                 }
             }
-            densidad[k] = (suma_dist/listag[k].nelemg);
+            densidad[k] = (suma_dist);
         }
     }
 
