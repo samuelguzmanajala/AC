@@ -20,7 +20,6 @@
 double gendist(float *elem1, float *elem2) {
     double sum = 0;
     int i = 0;
-#pragma omp parallel for private(i) reduction(+:sum) schedule(static)
     for (i = 0; i < NCAR; i++) {
         sum = sum + pow((elem1[i] - elem2[i]), 2);
     }
@@ -45,7 +44,7 @@ void grupo_cercano (int nelem, float elem[][NCAR], float cent[][NCAR], int *popu
 {
     int i=0;
     double minGenDist;
-#pragma omp parallel for private(i) reduction (min : minGenDist) schedule(runtime)
+#pragma omp parallel for private(i) reduction (min : minGenDist) schedule(static)
     for(i=0; i<nelem;i++){
         minGenDist = DBL_MAX;
         for(int k=0; k < NGRUPOS; k++){
@@ -71,30 +70,26 @@ void grupo_cercano (int nelem, float elem[][NCAR], float cent[][NCAR], int *popu
 *****************************************************************************************/
 void calcular_densidad (float elem[][NCAR], struct lista_grupos *listag, float *densidad)
 {
-    float suma_dist;
-    int cont;
-#pragma omp parallel reduction(+ : suma_dist)
-    {
-        suma_dist = 0;
-        for (int k = 0; k < NGRUPOS; k++) {
-            cont = 0;
-            if (listag[k].nelemg == 0 || listag[k].nelemg == 1) {
-                densidad[k] = 0;
-            } else {
-                int i;
-                int j;
-#pragma omp for private(i, j) schedule (dynamic)
-                
-                for (i = 0; i < listag[k].nelemg - 1; i++) {
-                    for (j = i + 1; j < listag[k].nelemg; j++) {
-                        suma_dist += gendist(elem[listag[k].elemg[i]], elem[listag[k].elemg[j]]);
-                        cont++;
-                    }
+    float suma_dist = 0;
+    float cont;
+    int i,j;
+    for(int k=0; k<NGRUPOS;k++){
+        suma_dist=0.0;
+        cont = 0;
+        if(listag[k].nelemg==0||listag[k].nelemg==1) {
+            densidad[k]=0;
+        }else{
+        #pragma omp parallel for private(i, j) schedule (dynamic) reduction(+: suma_dist) reduction(+: cont)
+            for(i = 0; i<listag[k].nelemg-1;i++){
+                for(j = i+1;j<listag[k].nelemg;j++){
+                    suma_dist+=gendist(elem[listag[k].elemg[i]],elem[listag[k].elemg[j]]);
+                    cont++;
                 }
-                densidad[k] = (suma_dist / listag[k].nelemg);
             }
+            densidad[k] = (suma_dist/cont);
         }
     }
+    
 
 // PARA COMPLETAR
 // Calcular la densidad de los grupos:
@@ -117,33 +112,30 @@ void analizar_enfermedades (struct lista_grupos *listag, float enf[][TENF], stru
 //        minimo y grupo en el que se da el minimo (para cada enfermedad)
 
 
-    float sumaEnfermedades;
-#pragma omp parallel //reduction(+:sumaEnfermedades)
     {
+        float sumaEnfermedades;
         int h;
-        //float sumaEnfermedades;
-#pragma omp for private(h)
+        //Aqui no he puesto una version paralela porque tan solo son 20 elementos y el factor de acerleracion no sale tan rentable poner en paralelo.
         for (h = 0; h < TENF; h++) {
             prob_enf[h].min = FLT_MAX;
             prob_enf[h].max = FLT_MIN;
         }
         int i;
         float media;
-//#pragma omp for private (i,j,k,media)
 
         for (i = 0; i < NGRUPOS; i++) {
             media= 0;
             for (int j = 0; j < TENF; j++) {
                 int k;
                 sumaEnfermedades = 0;
-#pragma omp for private (k)
+#pragma omp parallel for private (k) reduction(+: sumaEnfermedades) //reduction(min: prob_enf) reduction(max: prob_enf)
                 for (k = 0; k < listag[i].nelemg; k++) {
-#pragma omp atomic
+
                     sumaEnfermedades = sumaEnfermedades + enf[listag[i].elemg[k]][j];
                 }
 
                 media = sumaEnfermedades / listag[i].nelemg;
-#pragma omp barrier
+//#pragma omp barrier
                 if (media > prob_enf[j].max) {
                     prob_enf[j].max = media;
                     prob_enf[j].gmax = i;

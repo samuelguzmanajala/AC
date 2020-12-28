@@ -67,17 +67,20 @@ void grupo_cercano (int nelem, float elem[][NCAR], float cent[][NCAR], int *popu
 void calcular_densidad (float elem[][NCAR], struct lista_grupos *listag, float *densidad)
 {
     float suma_dist = 0;
+    float cont;
     for(int k=0; k<NGRUPOS;k++){
         suma_dist=0.0;
+        cont = 0;
         if(listag[k].nelemg==0||listag[k].nelemg==1) {
             densidad[k]=0;
         }else{
             for(int i = 0; i<listag[k].nelemg-1;i++){
                 for(int j = i+1;j<listag[k].nelemg;j++){
                     suma_dist+=gendist(elem[listag[k].elemg[i]],elem[listag[k].elemg[j]]);
+                    cont++;
                 }
             }
-            densidad[k] = (suma_dist);
+            densidad[k] = (suma_dist/cont);
         }
     }
 

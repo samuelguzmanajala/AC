@@ -112,38 +112,33 @@ void main (int argc, char *argv[])
     // calcular los nuevos centroides de los grupos
     // media de cada caracteristica
     // acumular los valores de cada caracteristica (100); numero de elementos al final
-    #pragma omp parallel for private(i,j)
+#pragma omp parallel for private(i,j)
     for (i=0; i<NGRUPOS; i++){
      for (j=0; j<NCAR+1; j++){
-     #pragma omp atomic
       additions[i][j] = 0.0;
      } 
     }
 #pragma omp parallel for reduction(+:additions)
     for (i=0; i<nelem; i++)
     {
-      
-      for (j=0; j<NCAR; j++) additions[popul[i]][j] += elem[i][j];
-      #pragma omp atomic
+      for (j=0; j<NCAR; j++) additions[popul[i]][j] += elem[i][j]; 
       additions[popul[i]][NCAR]++;
     }
 
     // calcular los nuevos centroides y decidir si el proceso ha finalizado o no (en funcion de DELTA)
     fin = 1;
-    #pragma omp parallel for private(i,j)
+    #pragma omp parallel for private(i)
     for (i=0; i<NGRUPOS; i++) 
     {
       if (additions[i][NCAR] > 0) // ese grupo (cluster) no esta vacio
       {
         for (j=0; j<NCAR; j++) newcent[i][j] = additions[i][j] / additions[i][NCAR];
-#pragma omp barrier
         // decidir si el proceso ha finalizado
         discent = gendist (&newcent[i][0], &cent[i][0]);
         if (discent > DELTA) fin = 0;  // en alguna centroide hay cambios; continuar 
 
         // copiar los nuevos centroides
         for (j=0; j<NCAR; j++){
-          #pragma omp atomic
           cent[i][j] = newcent[i][j];
         } 
       }
@@ -182,7 +177,7 @@ void main (int argc, char *argv[])
   // escritura de resultados en el fichero de salida
   // ===============================================
 
-  fd = fopen ("dbgen_s.out", "w");
+  fd = fopen ("dbgen_p.out", "w");
   if (fd == NULL) {
     printf ("Error al abrir el fichero dbgen_out.s\n");
     exit (-1);
@@ -190,7 +185,7 @@ void main (int argc, char *argv[])
 
   fprintf (fd,">> Centroides de los clusters\n\n");
   for (i=0; i<NGRUPOS; i++) {
-    for (j=0; j<NCAR; j++) fprintf (fd, "%7.3f", newcent[i][j]);
+    for (j=0; j<NCAR; j++) fprintf (fd, "%7.3f", cent[i][j]);
     fprintf (fd,"\n");
   }
 
